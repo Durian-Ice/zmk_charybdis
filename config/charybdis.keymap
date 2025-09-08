@@ -298,7 +298,7 @@
         keeb_pref_layer {
             label = "FN";
             bindings = <
-&bootloader  &trans  &trans  &trans  &trans  &trans    &ext_power EP_TOG  &trans        &trans        &trans        &trans        &bootloader
+&bootloader  &trans  &trans  &trans  &trans  &trans    &ext_power EP_TOG  &trans        &trans        &trans        &sys_reset    &bootloader
 &trans       &trans  &trans  &trans  &trans  &trans    &trans             &trans        &trans        &trans        &trans        &trans
 &trans       &trans  &trans  &trans  &trans  &trans    &bt BT_CLR         &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
 &trans       &trans  &trans  &trans  &trans  &trans    &bt BT_CLR_ALL     &trans        &trans        &trans        &trans        &trans
