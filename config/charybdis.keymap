@@ -125,6 +125,26 @@
             bindings = <&to 5>;
             key-positions = <18 20 23>;
         };
+
+        lh_prevClick {
+            bindings = <&mkp MB4>;
+            key-positions = <40 38>;
+        };
+
+        lh_nextClick {
+            bindings = <&mkp MB5>;
+            key-positions = <40 37>;
+        };
+
+        rh_prevClick {
+            bindings = <&mkp MB4>;
+            key-positions = <43 45>;
+        };
+
+        rh_nextClick {
+            bindings = <&mkp MB5>;
+            key-positions = <43 46>;
+        };
     };
 
     behaviors {
@@ -158,40 +178,40 @@
     keymap {
         compatible = "zmk,keymap";
 
-        default_win_layer {
+        base {
             bindings = <
-&kp GRAVE        &kp N1  &kp N2  &kp N3           &kp N4           &kp N5              &kp N6          &kp N7           &kp N8        &kp N9         &kp N0       &kp LEFT_ALT
-&kp TAB          &kp Q   &kp W   &kp E            &kp R            &kp T               &kp Y           &kp U            &kp I         &kp O          &kp P        &hmr PLUS EQUAL
-&kp ESC          &kp A   &kp S   &hml LEFT_GUI D  &hml LEFT_ALT F  &kp G               &kp H           &hmr LEFT_ALT J  &hmr LGUI K   &kp L          &kp SEMI     &hmr DQT SQT
+&kp GRAVE        &kp N1  &kp N2  &kp N3           &kp N4           &kp N5              &kp N6          &kp N7           &kp N8        &kp N9         &kp N0       &kp DEL
+&kp TAB          &kp Q   &kp W   &kp E            &kp R            &kp T               &kp Y           &kp U            &kp I         &kp O          &kp P        &kp EQUAL
+&kp ESC          &kp A   &kp S   &hml LEFT_GUI D  &hml LEFT_ALT F  &kp G               &kp H           &hmr LEFT_ALT J  &hmr LGUI K   &kp L          &kp SEMI     &kp SQT
 &lt 3 BACKSLASH  &kp Z   &kp X   &kp C            &kp V            &kp B               &kp N           &kp M            &kp DE_COMMA  &kp DE_PERIOD  &lt 3 SLASH  &kp ENTER
                                  &mo 1            &kp SPACE        &kp LEFT_CONTROL    &kp LEFT_SHIFT  &kp BACKSPACE
-                                                  &mkp RCLK        &mkp LCLK           &mo 2
+                                                  &mkp RCLK        &mkp LCLK           &tog 2
             >;
 
-            label = "QUERTZ";
+            label = "BASE";
         };
 
-        win_raise_layer {
+        symbols {
             bindings = <
 &trans          &trans            &trans                &trans                 &trans             &trans             &trans         &trans     &trans  &trans  &trans     &trans
-&kp TILDE       &kp EXCLAMATION   &kp AT_SIGN           &kp POUND              &kp DOLLAR         &kp DE_PERCENT     &kp PLUS       &kp N7     &kp N8  &kp N9  &kp MINUS  &trans
-&kp LEFT_BRACE  &kp LEFT_BRACKET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACKET  &kp RIGHT_BRACE    &kp EQUAL      &kp N4     &kp N5  &kp N6  &kp DOT    &trans
-&kp BACKSLASH   &kp CARET         &kp AMPERSAND         &kp PIPE               &kp UNDERSCORE     &kp QUESTION       &kp ASTERISK   &kp N1     &kp N2  &kp N3  &kp FSLH   &kp RET
+&kp TILDE       &kp EXCLAMATION   &kp AT_SIGN           &kp POUND              &kp DOLLAR         &kp DE_PERCENT     &kp PLUS       &kp N7     &kp N8  &kp N9  &kp MINUS  &kp BACKSLASH
+&kp LEFT_BRACE  &kp LEFT_BRACKET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACKET  &kp RIGHT_BRACE    &kp EQUAL      &kp N4     &kp N5  &kp N6  &kp COLON  &kp DQT
+&kp AMPERSAND   &kp CARET         &kp LESS_THAN         &kp GREATER_THAN       &kp UNDERSCORE     &kp PIPE           &kp ASTERISK   &kp N1     &kp N2  &kp N3  &kp FSLH   &kp QUESTION
                                                         &trans                 &trans             &trans             &kp BACKSPACE  &kp DE_N0
                                                                                &trans             &trans             &trans
             >;
 
-            label = "NUMBERS";
+            label = "SYMBOLS";
         };
 
-        win_lower_layer {
+        Navigation {
             bindings = <
-&trans      &trans    &trans         &trans          &trans            &trans        &trans    &trans           &trans  &trans     &trans   &trans
-&kp ESCAPE  &kt F1    &kp F2         &kp F3          &kp F4            &kp F5        &kp F6    &kp F7           &kp F8  &kp F9     &kp F10  &kp F11
-&trans      &kp HOME  &kp PAGE_UP    &kp C_PREVIOUS  &kp C_PLAY_PAUSE  &kp C_NEXT    &kp LEFT  &kp DOWN         &kp UP  &kp RIGHT  &trans   &kp F12
-&trans      &kp END   &kp PAGE_DOWN  &trans          &trans            &trans        &trans    &trans           &trans  &trans     &trans   &trans
-                                     &trans          &trans            &trans        &trans    &kp PRINTSCREEN
-                                                     &trans            &trans        &trans
+&trans   &trans  &trans     &trans     &trans     &trans           &trans    &trans           &trans   &trans     &trans   &trans
+&trans   &kt F1  &kp F2     &kp F3     &kp F4     &kp F5           &kp F6    &kp F7           &kp F8   &kp F9     &kp F10  &kp F11
+&kp ESC  &tog 3  &mkp RCLK  &mkp MCLK  &mkp LCLK  &tog 4           &kp LEFT  &kp DOWN         &kp UP   &kp RIGHT  &trans   &kp F12
+&trans   &trans  &trans     &mkp MB5   &mkp MB4   &trans           &trans    &kp HOME         &kp END  &trans     &trans   &trans
+                            &trans     &trans     &trans           &trans    &kp PRINTSCREEN
+                                       &kp LALT   &kp LEFT_META    &trans
             >;
 
             label = "NAV-FUN";
@@ -223,7 +243,7 @@
             label = "SNIPER";
         };
 
-        keeb_pref_layer {
+        settings {
             label = "FN";
             bindings = <
 &bootloader  &trans  &trans  &trans  &trans  &trans    &ext_power EP_TOG  &trans        &trans        &trans        &sys_reset    &bootloader

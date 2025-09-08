@@ -1,6 +1,6 @@
 layout: {zmk_keyboard: charybdis}
 layers:
-  QUERTZ:
+  BASE:
   - '`'
   - '1'
   - '2'
@@ -12,7 +12,7 @@ layers:
   - '8'
   - '9'
   - '0'
-  - LEFT ALT
+  - DEL
   - TAB
   - Q
   - W
@@ -24,7 +24,7 @@ layers:
   - I
   - O
   - P
-  - {t: '=', h: +}
+  - '='
   - ESC
   - A
   - S
@@ -36,7 +36,7 @@ layers:
   - {t: K, h: LGUI}
   - L
   - ;
-  - {t: '''', h: '"'}
+  - ''''
   - {t: \, h: SCROLL}
   - Z
   - X
@@ -49,15 +49,15 @@ layers:
   - (ZMK HID USAGE(HID USAGE KEY, HID USAGE KEY KEYBOARD PERIOD AND GREATER THAN))
   - {t: /, h: SCROLL}
   - ENTER
-  - NUMBERS
+  - SYMBOLS
   - SPACE
   - LEFT CONTROL
   - LEFT SHIFT
   - BACK SPACE
   - R CLK
   - L CLK
-  - NAV-FUN
-  NUMBERS:
+  - {t: NAV-FUN, h: toggle}
+  SYMBOLS:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -81,7 +81,7 @@ layers:
   - '8'
   - '9'
   - '-'
-  - {t: ▽, type: trans}
+  - \
   - '{'
   - '['
   - (
@@ -92,20 +92,20 @@ layers:
   - '4'
   - '5'
   - '6'
-  - .
-  - {t: ▽, type: trans}
-  - \
-  - ^
+  - ':'
+  - '"'
   - '&'
-  - '|'
+  - ^
+  - <
+  - '>'
   - _
-  - '?'
+  - '|'
   - '*'
   - '1'
   - '2'
   - '3'
   - /
-  - RET
+  - '?'
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -127,7 +127,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ESCAPE
+  - {t: ▽, type: trans}
   - {t: F1, h: toggle}
   - F2
   - F3
@@ -139,12 +139,12 @@ layers:
   - F9
   - F10
   - F11
-  - {t: ▽, type: trans}
-  - HOME
-  - PAGE UP
-  - PREVIOUS
-  - PLAY PAUSE
-  - NEXT
+  - ESC
+  - {t: SCROLL, h: toggle}
+  - R CLK
+  - M CLK
+  - L CLK
+  - {t: SNIPER, h: toggle}
   - LEFT
   - DOWN
   - UP
@@ -152,14 +152,14 @@ layers:
   - {t: ▽, type: trans}
   - DEV TOOLS
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - FWD
+  - BACK
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - HOME
   - END
-  - PAGE DOWN
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -168,9 +168,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - PRINT SCREEN
+  - LALT
+  - LEFT META
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {type: held}
   SCROLL:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -359,3 +359,11 @@ combos:
   k: CAPSLOCK
 - p: [18, 20, 23]
   k: {t: FN, h: toggle}
+- p: [40, 38]
+  k: BACK
+- p: [40, 37]
+  k: FWD
+- p: [43, 45]
+  k: BACK
+- p: [43, 46]
+  k: FWD
