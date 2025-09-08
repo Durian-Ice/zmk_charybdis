@@ -32,8 +32,8 @@ layers:
   - {t: F, h: LEFT ALT}
   - G
   - H
-  - {t: J, h: RIGHT ALT}
-  - {t: K, h: RIGHT GUI}
+  - {t: J, h: LEFT ALT}
+  - {t: K, h: LGUI}
   - L
   - ;
   - {t: '''', h: '"'}
@@ -49,7 +49,7 @@ layers:
   - (ZMK HID USAGE(HID USAGE KEY, HID USAGE KEY KEYBOARD PERIOD AND GREATER THAN))
   - {t: /, h: SCROLL}
   - ENTER
-  - {t: TAB, h: NUMBERS}
+  - NUMBERS
   - SPACE
   - LEFT CONTROL
   - LEFT SHIFT

@@ -155,11 +155,11 @@
 
         default_win_layer {
             bindings = <
-&kp GRAVE        &kp N1  &kp N2  &kp N3           &kp N4           &kp N5              &kp N6          &kp N7            &kp N8            &kp N9         &kp N0       &kp LEFT_ALT
-&kp TAB          &kp Q   &kp W   &kp E            &kp R            &kp T               &kp Y           &kp U             &kp I             &kp O          &kp P        &hmr PLUS EQUAL
-&kp ESC          &kp A   &kp S   &hml LEFT_GUI D  &hml LEFT_ALT F  &kp G               &kp H           &hmr RIGHT_ALT J  &hmr RIGHT_GUI K  &kp L          &kp SEMI     &hmr DQT SQT
-&lt 9 BACKSLASH  &kp Z   &kp X   &kp C            &kp V            &kp B               &kp N           &kp M             &kp DE_COMMA      &kp DE_PERIOD  &lt 9 SLASH  &kp ENTER
-                                 &lt 1 TAB        &kp SPACE        &kp LEFT_CONTROL    &kp LEFT_SHIFT  &kp BACKSPACE
+&kp GRAVE        &kp N1  &kp N2  &kp N3           &kp N4           &kp N5              &kp N6          &kp N7           &kp N8        &kp N9         &kp N0       &kp LEFT_ALT
+&kp TAB          &kp Q   &kp W   &kp E            &kp R            &kp T               &kp Y           &kp U            &kp I         &kp O          &kp P        &hmr PLUS EQUAL
+&kp ESC          &kp A   &kp S   &hml LEFT_GUI D  &hml LEFT_ALT F  &kp G               &kp H           &hmr LEFT_ALT J  &hmr LGUI K   &kp L          &kp SEMI     &hmr DQT SQT
+&lt 9 BACKSLASH  &kp Z   &kp X   &kp C            &kp V            &kp B               &kp N           &kp M            &kp DE_COMMA  &kp DE_PERIOD  &lt 9 SLASH  &kp ENTER
+                                 &mo 1            &kp SPACE        &kp LEFT_CONTROL    &kp LEFT_SHIFT  &kp BACKSPACE
                                                   &mkp RCLK        &mkp LCLK           &mo 2
             >;
 
