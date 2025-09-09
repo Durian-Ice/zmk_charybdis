@@ -11,6 +11,12 @@
 //     chosen { zmk,matrix_transform = &default_transform; };
 // };
 
+&lt {
+    flavor = "balanced";
+    quick-tap-ms = <175>;
+    tapping-term-ms = <190>;
+};
+
 / {
     /* input config for mouse move mode */
 
@@ -180,12 +186,12 @@
 
         base {
             bindings = <
-&kp GRAVE        &kp N1  &kp N2  &kp N3           &kp N4           &kp N5              &kp N6          &kp N7           &kp N8        &kp N9         &kp N0       &kp DEL
-&kp TAB          &kp Q   &kp W   &kp E            &kp R            &kp T               &kp Y           &kp U            &kp I         &kp O          &kp P        &kp EQUAL
-&kp ESC          &kp A   &kp S   &hml LEFT_GUI D  &hml LEFT_ALT F  &kp G               &kp H           &hmr LEFT_ALT J  &hmr LGUI K   &kp L          &kp SEMI     &kp SQT
-&lt 3 BACKSLASH  &kp Z   &kp X   &kp C            &kp V            &kp B               &kp N           &kp M            &kp DE_COMMA  &kp DE_PERIOD  &lt 3 SLASH  &kp ENTER
-                                 &mo 1            &kp SPACE        &kp LEFT_CONTROL    &kp LEFT_SHIFT  &kp BACKSPACE
-                                                  &mkp RCLK        &mkp LCLK           &tog 2
+&kp GRAVE                 &kp N1   &kp N2   &kp N3           &kp N4           &kp N5            &kp N6            &kp N7           &kp N8        &kp N9         &kp N0      &kp DEL
+&kp TAB                   &kp Q    &kp W    &kp E            &kp R            &kp T             &kp Y             &kp U            &kp I         &kp O          &kp P       &kp EQUAL
+&hml LEFT_CONTROL ESCAPE  &lt 3 A  &lt 4 S  &hml LEFT_GUI D  &hml LEFT_ALT F  &kp G             &kp H             &hmr LEFT_ALT J  &hmr LGUI K   &lt 4 L        &lt 3 SEMI  &hmr LEFT_SHIFT SQT
+&kp BACKSLASH             &kp Z    &kp X    &kp C            &kp V            &kp B             &kp N             &kp M            &kp DE_COMMA  &kp DE_PERIOD  &kp SLASH   &kp MINUS
+                                            &tog 2           &lt 1 SPACE      &kp LEFT_SHIFT    &kp LEFT_CONTROL  &kp BACKSPACE
+                                                             &mkp RCLK        &mkp LCLK         &kp ENTER
             >;
 
             label = "BASE";
@@ -194,7 +200,7 @@
         symbols {
             bindings = <
 &trans          &trans            &trans                &trans                 &trans             &trans             &trans         &trans     &trans  &trans  &trans     &trans
-&kp TILDE       &kp EXCLAMATION   &kp AT_SIGN           &kp POUND              &kp DOLLAR         &kp DE_PERCENT     &kp PLUS       &kp N7     &kp N8  &kp N9  &kp MINUS  &kp BACKSLASH
+&kp TILDE       &kp EXCLAMATION   &kp AT_SIGN           &kp POUND              &kp DOLLAR         &kp PERCENT        &kp PLUS       &kp N7     &kp N8  &kp N9  &kp MINUS  &kp BACKSLASH
 &kp LEFT_BRACE  &kp LEFT_BRACKET  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACKET  &kp RIGHT_BRACE    &kp EQUAL      &kp N4     &kp N5  &kp N6  &kp COLON  &kp DQT
 &kp AMPERSAND   &kp CARET         &kp LESS_THAN         &kp GREATER_THAN       &kp UNDERSCORE     &kp PIPE           &kp ASTERISK   &kp N1     &kp N2  &kp N3  &kp FSLH   &kp QUESTION
                                                         &trans                 &trans             &trans             &kp BACKSPACE  &kp DE_N0
@@ -206,12 +212,12 @@
 
         Navigation {
             bindings = <
-&trans   &trans  &trans     &trans     &trans     &trans           &trans    &trans           &trans   &trans     &trans   &trans
-&trans   &kt F1  &kp F2     &kp F3     &kp F4     &kp F5           &kp F6    &kp F7           &kp F8   &kp F9     &kp F10  &kp F11
-&kp ESC  &tog 3  &mkp RCLK  &mkp MCLK  &mkp LCLK  &tog 4           &kp LEFT  &kp DOWN         &kp UP   &kp RIGHT  &trans   &kp F12
-&trans   &trans  &trans     &mkp MB5   &mkp MB4   &trans           &trans    &kp HOME         &kp END  &trans     &trans   &trans
-                            &trans     &trans     &trans           &trans    &kp PRINTSCREEN
-                                       &kp LALT   &kp LEFT_META    &trans
+&trans  &trans  &trans     &trans     &trans     &trans           &trans    &trans    &trans   &trans     &trans   &trans
+&trans  &kt F1  &kp F2     &kp F3     &kp F4     &kp F5           &kp F6    &kp F7    &kp F8   &kp F9     &kp F10  &kp F11
+&trans  &tog 3  &mkp RCLK  &mkp MCLK  &mkp LCLK  &tog 4           &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT  &trans   &kp F12
+&trans  &trans  &trans     &mkp MB5   &mkp MB4   &trans           &trans    &kp HOME  &kp END  &trans     &trans   &trans
+                           &trans     &trans     &trans           &trans    &trans
+                                      &kp LALT   &kp LEFT_META    &trans
             >;
 
             label = "NAV-FUN";
@@ -246,7 +252,7 @@
         settings {
             label = "FN";
             bindings = <
-&bootloader  &trans  &trans  &trans  &trans  &trans    &ext_power EP_TOG  &trans        &trans        &trans        &sys_reset    &bootloader
+&bootloader  &trans  &trans  &trans  &trans  &trans    &ext_power EP_TOG  &trans        &to 0         &trans        &sys_reset    &bootloader
 &trans       &trans  &trans  &trans  &trans  &trans    &trans             &trans        &trans        &trans        &trans        &trans
 &trans       &trans  &trans  &trans  &trans  &trans    &bt BT_CLR         &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
 &trans       &trans  &trans  &trans  &trans  &trans    &bt BT_CLR_ALL     &trans        &trans        &trans        &trans        &trans

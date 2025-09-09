@@ -25,19 +25,19 @@ layers:
   - O
   - P
   - '='
-  - ESC
-  - A
-  - S
+  - {t: ESCAPE, h: LEFT CONTROL}
+  - {t: A, h: SCROLL}
+  - {t: S, h: SNIPER}
   - {t: D, h: LEFT GUI}
   - {t: F, h: LEFT ALT}
   - G
   - H
   - {t: J, h: LEFT ALT}
   - {t: K, h: LGUI}
-  - L
-  - ;
-  - ''''
-  - {t: \, h: SCROLL}
+  - {t: L, h: SNIPER}
+  - {t: ;, h: SCROLL}
+  - {t: '''', h: LEFT SHIFT}
+  - \
   - Z
   - X
   - C
@@ -47,16 +47,16 @@ layers:
   - M
   - (ZMK HID USAGE(HID USAGE KEY, HID USAGE KEY KEYBOARD COMMA AND LESS THAN))
   - (ZMK HID USAGE(HID USAGE KEY, HID USAGE KEY KEYBOARD PERIOD AND GREATER THAN))
-  - {t: /, h: SCROLL}
-  - ENTER
-  - SYMBOLS
-  - SPACE
-  - LEFT CONTROL
+  - /
+  - '-'
+  - {t: NAV-FUN, h: toggle}
+  - {t: SPACE, h: SYMBOLS}
   - LEFT SHIFT
+  - LEFT CONTROL
   - BACK SPACE
   - R CLK
   - L CLK
-  - {t: NAV-FUN, h: toggle}
+  - ENTER
   SYMBOLS:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -75,7 +75,7 @@ layers:
   - '@'
   - '#'
   - $
-  - (LS(ZMK HID USAGE(HID USAGE KEY, HID USAGE KEY KEYBOARD 5 AND PERCENT)))
+  - '%'
   - +
   - '7'
   - '8'
@@ -106,8 +106,8 @@ layers:
   - '3'
   - /
   - '?'
-  - {type: held}
   - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - BACK SPACE
   - (ZMK HID USAGE(HID USAGE KEY, HID USAGE KEY KEYBOARD 0 AND RIGHT PARENTHESIS))
@@ -139,7 +139,7 @@ layers:
   - F9
   - F10
   - F11
-  - ESC
+  - {t: ▽, type: trans}
   - {t: SCROLL, h: toggle}
   - R CLK
   - M CLK
@@ -167,7 +167,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - PRINT SCREEN
+  - {t: ▽, type: trans}
   - LALT
   - LEFT META
   - {t: ▽, type: trans}
@@ -197,18 +197,18 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -255,7 +255,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -294,7 +294,7 @@ layers:
   - {t: ▽, type: trans}
   - EP TOG
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: BASE, h: toggle}
   - {t: ▽, type: trans}
   - '&sys_reset'
   - BOOT LDR
