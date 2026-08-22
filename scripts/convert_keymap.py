@@ -82,8 +82,8 @@ def main():
     #####################################################################
 
     def convert_keymap(keymap_contents):   
-        # Define regex pattern to find the 'Base' keymap section
-        base_keymap_pattern = re.compile(r'(BASE\s*\{\s*bindings\s*=\s*<\s*)(.*?)(\s*>;)', re.DOTALL)     
+        # Define regex pattern to find the 'Base' keymap section (case-insensitive)
+        base_keymap_pattern = re.compile(r'(BASE\s*\{\s*bindings\s*=\s*<\s*)(.*?)(\s*>;)', re.DOTALL | re.IGNORECASE)     
         # Apply regex substitution to convert keymap
         new_keymap_contents = base_keymap_pattern.sub(replace_keymap, keymap_contents)
         return new_keymap_contents

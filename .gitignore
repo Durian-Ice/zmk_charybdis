@@ -1,2 +1,8 @@
 boards/shields/charybdis/charybdis.keymap
 drivers/
+
+# Agent / LLM tooling
+.agents/
+skills-lock.json
+.gemini/
+.claude/
