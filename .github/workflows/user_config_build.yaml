@@ -91,7 +91,7 @@ jobs:
           fi
 
           if [ -n "${snippet}" ]; then
-            extra_west_args="-S \"${snippet}\""
+            extra_west_args="-S ${snippet}"
           fi
 
           echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
