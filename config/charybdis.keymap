@@ -191,10 +191,8 @@
 &hml LEFT_CONTROL ESCAPE  &lt 3 A  &lt 4 S  &hml LEFT_GUI D  &hml LEFT_ALT F  &kp G             &kp H             &hmr LEFT_ALT J  &hmr LGUI K   &lt 4 L        &lt 3 SEMI  &hmr LEFT_SHIFT SQT
 &kp BACKSLASH             &kp Z    &kp X    &kp C            &kp V            &kp B             &kp N             &kp M            &kp DE_COMMA  &kp DE_PERIOD  &kp SLASH   &kp MINUS
                                             &tog 2           &lt 1 SPACE      &kp LEFT_SHIFT    &kp LEFT_CONTROL  &kp BACKSPACE
-                                                             &mkp RCLK        &mkp LCLK         &kp ENTER
+                                                             &kp LEFT_ALT     &kp LEFT_GUI      &kp ENTER
             >;
-
-            label = "BASE";
         };
 
         symbols {
@@ -206,24 +204,20 @@
                                                         &trans                 &trans             &trans             &kp BACKSPACE  &kp DE_N0
                                                                                &trans             &trans             &trans
             >;
-
-            label = "SYMBOLS";
         };
 
-        Navigation {
+        navigation {
             bindings = <
-&trans  &trans  &trans     &trans     &trans     &trans           &trans    &trans    &trans   &trans     &trans   &trans
-&trans  &kt F1  &kp F2     &kp F3     &kp F4     &kp F5           &kp F6    &kp F7    &kp F8   &kp F9     &kp F10  &kp F11
-&trans  &tog 3  &mkp RCLK  &mkp MCLK  &mkp LCLK  &tog 4           &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT  &trans   &kp F12
-&trans  &trans  &trans     &mkp MB5   &mkp MB4   &trans           &trans    &kp HOME  &kp END  &trans     &trans   &trans
-                           &trans     &trans     &trans           &trans    &trans
-                                      &kp LALT   &kp LEFT_META    &trans
+&trans  &trans  &trans     &trans     &trans     &trans          &trans    &trans    &trans   &trans     &trans   &trans
+&trans  &kt F1  &kp F2     &kp F3     &kp F4     &kp F5          &kp F6    &kp F7    &kp F8   &kp F9     &kp F10  &kp F11
+&trans  &tog 3  &mkp RCLK  &mkp MCLK  &mkp LCLK  &tog 4          &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT  &trans   &kp F12
+&trans  &trans  &trans     &mkp MB5   &mkp MB4   &trans          &trans    &kp HOME  &kp END  &trans     &trans   &trans
+                           &trans     &trans     &trans          &trans    &trans
+                                      &kp LALT   &kp LEFT_GUI    &trans
             >;
-
-            label = "NAV-FUN";
         };
 
-        scroll_layer {
+        scroll {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
@@ -232,11 +226,9 @@
                         &trans  &trans  &trans    &trans  &trans
                                 &trans  &trans    &trans
             >;
-
-            label = "SCROLL";
         };
 
-        sniper_layer {
+        sniper {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
@@ -245,19 +237,27 @@
                         &trans  &trans  &trans    &trans  &trans
                                 &trans  &trans    &trans
             >;
-
-            label = "SNIPER";
         };
 
         settings {
-            label = "FN";
             bindings = <
-&bootloader  &trans  &trans  &trans  &trans  &trans    &ext_power EP_TOG  &trans        &to 0         &trans        &sys_reset    &bootloader
-&trans       &trans  &trans  &trans  &trans  &trans    &trans             &trans        &trans        &trans        &trans        &trans
-&trans       &trans  &trans  &trans  &trans  &trans    &bt BT_CLR         &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&trans       &trans  &trans  &trans  &trans  &trans    &bt BT_CLR_ALL     &trans        &trans        &trans        &trans        &trans
-                             &trans  &trans  &trans    &trans             &trans
-                                     &trans  &trans    &trans
+&bootloader  &none  &none  &none  &none  &none    &ext_power EP_TOG  &none         &to 0         &none         &sys_reset    &bootloader
+&none        &none  &none  &none  &none  &none    &none              &to 0         &none         &none         &none         &none
+&none        &none  &none  &none  &none  &none    &bt BT_CLR         &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+&none        &none  &none  &none  &none  &none    &bt BT_CLR_ALL     &none         &none         &none         &none         &none
+                           &none  &none  &none    &none              &none
+                                  &none  &none    &none
+            >;
+        };
+
+        gaming {
+            bindings = <
+&none  &none      &none  &none  &none      &none    &none  &none     &none     &none      &none  &none
+&none  &kp TAB    &kp Q  &kp W  &kp E      &kp R    &none  &none     &kp UP    &none      &none  &none
+&none  &kp ESC    &kp A  &kp S  &kp D      &kp F    &none  &kp LEFT  &kp DOWN  &kp RIGHT  &none  &none
+&none  &kp LCTRL  &kp Z  &kp X  &kp C      &kp V    &none  &none     &none     &none      &none  &none
+                         &to 0  &kp SPACE  &none    &none  &none
+                                &none      &none    &none
             >;
         };
     };
