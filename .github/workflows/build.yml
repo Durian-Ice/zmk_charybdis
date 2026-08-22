@@ -38,3 +38,25 @@ jobs:
       contents: write
     uses: ./.github/workflows/draw_keymaps.yaml
     # credit to https://github.com/caksoylar/keymap-drawer
+
+  release:
+    needs: [build, keymap_images]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all firmware artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: firmware
+          merge-multiple: true
+
+      - name: Release Firmware
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
+          name: ${{ github.ref_type == 'tag' && github.ref_name || 'Latest Firmware' }}
+          files: |
+            firmware/*.uf2
+            firmware/*.bin
+
