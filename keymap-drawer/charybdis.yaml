@@ -294,7 +294,7 @@ layers:
   - ''
   - EP TOG
   - ZMK Studio
-  - {t: base, h: toggle}
+  - ''
   - ''
   - '&sys_reset'
   - BOOT LDR
@@ -306,7 +306,7 @@ layers:
   - ''
   - ''
   - {t: base, h: toggle}
-  - ''
+  - {t: gaming, h: toggle}
   - ''
   - ''
   - ''
