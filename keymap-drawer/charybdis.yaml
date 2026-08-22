@@ -293,7 +293,7 @@ layers:
   - ''
   - ''
   - EP TOG
-  - ''
+  - ZMK Studio
   - {t: base, h: toggle}
   - ''
   - '&sys_reset'

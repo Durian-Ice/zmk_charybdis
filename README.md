@@ -27,10 +27,9 @@ There are a few things to note about how the pre-built firmware is configured:
 - The dongle firmware will have much better battery life for the central side, but requires an extra MCU and can only be connected through the dongle.
 - The Bluetooth/USB firmware can connect through Bluetooth, but the central side will have a shorter battery life because it needs to maintain that connection.
   - The central side can also be plugged in to USB and the keyboard can be used when Bluetooth on the host computer isn't available (e.g. BIOS navigation)
-- To add support for the PMW3610 low power trackball sensor, badjeff's [zmk-pmw3610-driver](https://github.com/badjeff/zmk-pmw3610-driver), [ZMK Input Behavior Listener](https://github.com/badjeff/zmk-input-behavior-listener?tab=readme-ov-file), and [ZMK Split Peripheral Input Relay](https://github.com/badjeff/zmk-split-peripheral-input-relay) modules are included in the firmware.
-- eigatech's [zmk-configs](https://github.com/eigatech/zmk-config?tab=readme-ov-file) played a major role in getting badjeff's drivers and modules fully configured and are a great resource
-- A separate branch builds the Bluetooth/USB firmware using [inorichi's driver](https://github.com/inorichi/zmk-pmw3610-driver?tab=readme-ov-file) as an alternative to badjeff's driver.
-- Pete Johanson (creator and lead of the ZMK firmware) developed a feature ([pointers-move-scroll](https://github.com/zmkfirmware/zmk/pull/2027)) that allows mouse keys to move and scroll. A successor feature ([pointers-with-input-processors](https://github.com/zmkfirmware/zmk/pull/2477)) was then developed that allows more flexibility. This feature is what will eventually be merged into the main ZMK branch, and it's what is used by this repo to build the firmware. Although it's not guranteed to be stable, it hasn't caused any noticible issues. That being said, if you'd prefer to use pointers-move-scroll which is in a stable state, you can update the west.yaml and adapt the config files accordingly.
+- To add support for the PMW3610 low power trackball sensor, badjeff's [zmk-pmw3610-driver](https://github.com/badjeff/zmk-pmw3610-driver) (`zmk-0.4` branch) is included using the `pixart,pmw3610-alt` compatible driver.
+- Split peripheral pointing and input processors are powered by official upstream ZMK (`zmkfirmware/zmk:main` / `v0.4`) native pointing subsystem (`CONFIG_ZMK_POINTING=y`, `&zip_xy_scaler`, `&zip_scroll_scaler`, `&zip_xy_to_scroll_mapper`, `zmk,input-split`).
+- ZMK Studio is supported with the `studio-rpc-usb-uart` snippet and `&studio_unlock` key in the settings layer.
 
 ## Flashing the Firmware
 
