@@ -159,12 +159,19 @@ def main():
 
     converted_map = convert_keymap(keymap_contents)
 
-    # Write the new keymap_contents to the output file
-    with open(out_full_path, 'w') as file:
-        file.write(converted_map)
-    
-    print("#####################################################################")
-    print(f"Updated keymap written to {out_full_path}")
-    print("#####################################################################")
+    # Write the new keymap_contents to the output file if modified
+    should_write = True
+    if os.path.exists(out_full_path):
+        with open(out_full_path, 'r') as file:
+            if file.read() == converted_map:
+                should_write = False
+                print("Keymap unchanged, skipping write.")
+
+    if should_write:
+        with open(out_full_path, 'w') as file:
+            file.write(converted_map)
+        print("#####################################################################")
+        print(f"Updated keymap written to {out_full_path}")
+        print("#####################################################################")
 if __name__ == "__main__":
     main()

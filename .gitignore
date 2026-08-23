@@ -1,5 +1,8 @@
 boards/shields/charybdis/charybdis.keymap
 drivers/
+dist/
+build/
+.tmp-workspace*
 
 # Agent / LLM tooling
 .agents/

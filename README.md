@@ -31,6 +31,19 @@ There are a few things to note about how the pre-built firmware is configured:
 - Split peripheral pointing and input processors are powered by official upstream ZMK (`zmkfirmware/zmk:main` / `v0.4`) native pointing subsystem (`CONFIG_ZMK_POINTING=y`, `&zip_xy_scaler`, `&zip_scroll_scaler`, `&zip_xy_to_scroll_mapper`, `zmk,input-split`).
 - ZMK Studio is supported with the `studio-rpc-usb-uart` snippet and `&studio_unlock` key in the settings layer.
 
+## Local Building
+
+For fast local compilation during firmware debugging, use `./build.sh`:
+
+```bash
+./build.sh right   # Build right half (central with studio snippet)
+./build.sh left    # Build left half
+./build.sh reset   # Build settings reset firmware
+./build.sh         # Build all enabled targets
+```
+
+Output `.uf2` files are saved to `dist/`. See [LOCAL_BUILD.md](LOCAL_BUILD.md) for detailed documentation.
+
 ## Flashing the Firmware
 
 Follow the steps below to flash the firmware
