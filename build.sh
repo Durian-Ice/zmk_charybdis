@@ -3,34 +3,82 @@ set -e
 
 # Base directories
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PERSONAL_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Overridable paths via environment variables or CLI flags
-ZMK_DIR="${ZMK_DIR:-${PERSONAL_DIR}/zmk}"
-WORKSPACE_DIR="${WORKSPACE_DIR:-${PERSONAL_DIR}/zmk-workspace}"
 CONFIG_DIR="${CONFIG_DIR:-${SCRIPT_DIR}}"
-OUTPUT_DIR="${OUTPUT_DIR:-${SCRIPT_DIR}/dist}"
+WORKSPACE_DIR="${WORKSPACE_DIR:-${CONFIG_DIR}/zmk-workspace}"
+OUTPUT_DIR="${OUTPUT_DIR:-${CONFIG_DIR}/dist}"
+ZMK_DIR="${ZMK_DIR:-}"
+PMW3610_DIR="${PMW3610_DIR:-}"
 DOCKER_IMAGE="${DOCKER_IMAGE:-zmkfirmware/zmk-build-arm:stable}"
 
-# Parse temp env flags
+# Flags
 TEMP_ENV=false
+ASSUME_YES=false
 PASSTHROUGH_ARGS=()
 
-for arg in "$@"; do
-  case "$arg" in
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --workspace-dir|-w)
+      WORKSPACE_DIR="$(realpath -m "$2")"
+      shift 2
+      ;;
+    --zmk-dir|-z)
+      ZMK_DIR="$(realpath -m "$2")"
+      shift 2
+      ;;
+    --config-dir|-c)
+      CONFIG_DIR="$(realpath -m "$2")"
+      shift 2
+      ;;
+    --output-dir|-o)
+      OUTPUT_DIR="$(realpath -m "$2")"
+      shift 2
+      ;;
+    --pmw3610-dir)
+      PMW3610_DIR="$(realpath -m "$2")"
+      shift 2
+      ;;
+    --docker-image)
+      DOCKER_IMAGE="$2"
+      shift 2
+      ;;
+    -y|--yes)
+      ASSUME_YES=true
+      shift
+      ;;
     --temp-env|--temp-workspace)
       TEMP_ENV=true
+      shift
       ;;
     *)
-      PASSTHROUGH_ARGS+=("$arg")
+      PASSTHROUGH_ARGS+=("$1")
+      shift
       ;;
   esac
 done
 
-# Check if ZMK directory exists
-if [ ! -d "${ZMK_DIR}" ]; then
-  echo -e "\033[1;31mError: ZMK source repository not found at ${ZMK_DIR}\033[0m"
-  exit 1
+# Check if workspace directory exists; prompt user if running interactively
+if [ ! -d "${WORKSPACE_DIR}" ] && [ "${TEMP_ENV}" != "true" ]; then
+  if [ "${ASSUME_YES}" = false ] && [ -t 0 ]; then
+    echo -e "\033[1;33m[?] Workspace directory not found at: ${WORKSPACE_DIR}\033[0m"
+    echo -e "    This directory will contain Zephyr dependencies, ZMK sources, and the build cache (~2 GB)."
+    read -r -p "    Create and initialize it now? [Y/n] " response
+    case "$response" in
+      [nN][oO]|[nN])
+        echo -e "\033[1;31mBuild aborted.\033[0m"
+        echo "You can specify an existing workspace using --workspace-dir <path>"
+        echo "or an external ZMK source repository using --zmk-dir <path>."
+        exit 0
+        ;;
+      *)
+        echo -e "\033[1;32m==> Creating workspace directory: ${WORKSPACE_DIR}...\033[0m"
+        mkdir -p "${WORKSPACE_DIR}"
+        ;;
+    esac
+  else
+    mkdir -p "${WORKSPACE_DIR}"
+  fi
 fi
 
 TEMP_DIR=""
@@ -42,7 +90,7 @@ cleanup() {
 }
 
 if [ "${TEMP_ENV}" = true ]; then
-  TEMP_DIR="$(mktemp -d "${PERSONAL_DIR}/.tmp-workspace-XXXXXXXXXX")"
+  TEMP_DIR="$(mktemp -d "${CONFIG_DIR}/.tmp-workspace-XXXXXXXXXX")"
   trap cleanup EXIT
   WORKSPACE_DIR="${TEMP_DIR}"
   echo -e "\033[1;34m==> Using isolated temporary workspace: ${WORKSPACE_DIR}\033[0m"
@@ -52,57 +100,53 @@ fi
 mkdir -p "${WORKSPACE_DIR}"
 mkdir -p "${OUTPUT_DIR}"
 
+CONTAINER_WORKSPACE="/app/workspace"
+CONTAINER_CONFIG="/app/config"
+CONTAINER_OUTPUT="/app/dist"
+
 DOCKER_MOUNTS=(
-  -v "${PERSONAL_DIR}:/personal"
+  -v "${WORKSPACE_DIR}:${CONTAINER_WORKSPACE}"
+  -v "${CONFIG_DIR}:${CONTAINER_CONFIG}"
+  -v "${OUTPUT_DIR}:${CONTAINER_OUTPUT}"
 )
 
-# Resolve container path for CONFIG
-if [[ "${CONFIG_DIR}" != "${PERSONAL_DIR}"* ]]; then
-  DOCKER_MOUNTS+=(-v "${CONFIG_DIR}:${CONFIG_DIR}")
-  CONTAINER_CONFIG="${CONFIG_DIR}"
+# Resolve ZMK container location
+if [ -n "${ZMK_DIR}" ] && [ -d "${ZMK_DIR}" ]; then
+  if [[ "${ZMK_DIR}" == "${WORKSPACE_DIR}"* ]]; then
+    REL_ZMK="$(realpath --relative-to="${WORKSPACE_DIR}" "${ZMK_DIR}")"
+    CONTAINER_ZMK="${CONTAINER_WORKSPACE}/${REL_ZMK}"
+  elif [[ "${ZMK_DIR}" == "${CONFIG_DIR}"* ]]; then
+    REL_ZMK="$(realpath --relative-to="${CONFIG_DIR}" "${ZMK_DIR}")"
+    CONTAINER_ZMK="${CONTAINER_CONFIG}/${REL_ZMK}"
+  else
+    CONTAINER_ZMK="/app/zmk"
+    DOCKER_MOUNTS+=(-v "${ZMK_DIR}:${CONTAINER_ZMK}")
+  fi
 else
-  REL_CFG="$(realpath --relative-to="${PERSONAL_DIR}" "${CONFIG_DIR}")"
-  CONTAINER_CONFIG="/personal/${REL_CFG}"
+  CONTAINER_ZMK="${CONTAINER_WORKSPACE}/zmk"
 fi
 
-# Resolve container path for ZMK
-if [[ "${ZMK_DIR}" != "${PERSONAL_DIR}"* ]]; then
-  DOCKER_MOUNTS+=(-v "${ZMK_DIR}:${ZMK_DIR}")
-  CONTAINER_ZMK="${ZMK_DIR}"
-else
-  REL_ZMK="$(realpath --relative-to="${PERSONAL_DIR}" "${ZMK_DIR}")"
-  CONTAINER_ZMK="/personal/${REL_ZMK}"
-fi
-
-# Resolve container path for OUTPUT
-if [[ "${OUTPUT_DIR}" != "${PERSONAL_DIR}"* ]]; then
-  DOCKER_MOUNTS+=(-v "${OUTPUT_DIR}:${OUTPUT_DIR}")
-  CONTAINER_OUTPUT="${OUTPUT_DIR}"
-else
-  REL_OUT="$(realpath --relative-to="${PERSONAL_DIR}" "${OUTPUT_DIR}")"
-  CONTAINER_OUTPUT="/personal/${REL_OUT}"
-fi
-
-# Resolve container path for WORKSPACE
-if [[ "${WORKSPACE_DIR}" != "${PERSONAL_DIR}"* ]]; then
-  DOCKER_MOUNTS+=(-v "${WORKSPACE_DIR}:${WORKSPACE_DIR}")
-  CONTAINER_WORKSPACE="${WORKSPACE_DIR}"
-else
-  REL_WS="$(realpath --relative-to="${PERSONAL_DIR}" "${WORKSPACE_DIR}")"
-  CONTAINER_WORKSPACE="/personal/${REL_WS}"
+# Resolve PMW3610 driver container location if custom path supplied
+if [ -n "${PMW3610_DIR}" ] && [ -d "${PMW3610_DIR}" ]; then
+  if [[ "${PMW3610_DIR}" == "${WORKSPACE_DIR}"* ]]; then
+    REL_PMW="$(realpath --relative-to="${WORKSPACE_DIR}" "${PMW3610_DIR}")"
+    CONTAINER_PMW="${CONTAINER_WORKSPACE}/${REL_PMW}"
+  elif [[ "${PMW3610_DIR}" == "${CONFIG_DIR}"* ]]; then
+    REL_PMW="$(realpath --relative-to="${CONFIG_DIR}" "${PMW3610_DIR}")"
+    CONTAINER_PMW="${CONTAINER_CONFIG}/${REL_PMW}"
+  else
+    CONTAINER_PMW="/app/modules/zmk-pmw3610-driver"
+    DOCKER_MOUNTS+=(-v "${PMW3610_DIR}:${CONTAINER_PMW}")
+  fi
+  PASSTHROUGH_ARGS+=("--pmw3610-dir" "${CONTAINER_PMW}")
 fi
 
 # If temporary workspace, link cached zephyr, modules, and west configuration
 if [ "${TEMP_ENV}" = true ]; then
-  BASE_WORKSPACE="${PERSONAL_DIR}/zmk-workspace"
+  BASE_WORKSPACE="${CONFIG_DIR}/zmk-workspace"
   if [ -d "${BASE_WORKSPACE}/zephyr" ]; then
     echo -e "Linking cached zephyr and modules from ${BASE_WORKSPACE}..."
-    ln -s "/personal/zmk-workspace/zephyr" "${WORKSPACE_DIR}/zephyr"
-    [ -d "${BASE_WORKSPACE}/modules" ] && ln -s "/personal/zmk-workspace/modules" "${WORKSPACE_DIR}/modules"
-    [ -d "${BASE_WORKSPACE}/zmk-pmw3610-driver" ] && ln -s "/personal/zmk-workspace/zmk-pmw3610-driver" "${WORKSPACE_DIR}/zmk-pmw3610-driver"
-    [ -d "${BASE_WORKSPACE}/.west" ] && cp -r "${BASE_WORKSPACE}/.west" "${WORKSPACE_DIR}/.west"
-    ln -s "${CONTAINER_CONFIG}" "${WORKSPACE_DIR}/zmk-config"
-    ln -s "${CONTAINER_ZMK}" "${WORKSPACE_DIR}/zmk"
+    ln -s "${CONTAINER_WORKSPACE}/zephyr" "${CONTAINER_WORKSPACE}/zephyr" 2>/dev/null || true
   fi
 fi
 
@@ -110,7 +154,7 @@ fi
 if [ "${PASSTHROUGH_ARGS[0]}" == "--shell" ] || [ "${PASSTHROUGH_ARGS[0]}" == "shell" ]; then
   echo -e "\033[1;32mStarting interactive ZMK build shell...\033[0m"
   echo -e "Environment loaded with west, Zephyr SDK, and Python."
-  echo -e "Workspace: ${CONTAINER_WORKSPACE} | ZMK: ${CONTAINER_ZMK} | Config: ${CONTAINER_CONFIG}\n"
+  echo -e "Workspace: ${CONTAINER_WORKSPACE} | Config: ${CONTAINER_CONFIG}\n"
   exec docker run --rm -it \
     -u "$(id -u):$(id -g)" \
     -e ZEPHYR_BASE="${CONTAINER_WORKSPACE}/zephyr" \

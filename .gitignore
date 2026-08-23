@@ -2,6 +2,7 @@ boards/shields/charybdis/charybdis.keymap
 drivers/
 dist/
 build/
+zmk-workspace/
 .tmp-workspace*
 
 # Agent / LLM tooling

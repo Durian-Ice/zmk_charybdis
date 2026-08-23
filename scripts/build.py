@@ -7,10 +7,10 @@ import subprocess
 import sys
 import yaml
 
-DEFAULT_ZMK_DIR = "/personal/zmk"
-DEFAULT_CONFIG_DIR = "/personal/zmk-config"
-DEFAULT_WORKSPACE_DIR = "/personal/zmk-workspace"
-DEFAULT_OUTPUT_DIR = "/personal/zmk-config/dist"
+DEFAULT_ZMK_DIR = "/app/workspace/zmk"
+DEFAULT_CONFIG_DIR = "/app/config"
+DEFAULT_WORKSPACE_DIR = "/app/workspace"
+DEFAULT_OUTPUT_DIR = "/app/dist"
 
 
 def run_cmd(cmd, cwd=None, env=None, check=True):
@@ -163,8 +163,14 @@ def build_target(target, args, config_dir, zmk_dir, workspace_dir, output_dir):
     if shield:
         extra_cmake.append(f"-DSHIELD={shield}")
 
+    actual_zmk_dir = zmk_dir
+    if not os.path.exists(os.path.join(actual_zmk_dir, "app")):
+        candidate = os.path.join(workspace_dir, "zmk")
+        if os.path.exists(os.path.join(candidate, "app")):
+            actual_zmk_dir = candidate
+
     if shield != "settings_reset":
-        pmw_driver = os.path.join(workspace_dir, "zmk-pmw3610-driver")
+        pmw_driver = getattr(args, "pmw3610_dir", None) or os.path.join(workspace_dir, "zmk-pmw3610-driver")
         modules = [stage_dir]
         if os.path.exists(pmw_driver):
             modules.append(pmw_driver)
@@ -187,7 +193,7 @@ def build_target(target, args, config_dir, zmk_dir, workspace_dir, output_dir):
     if not built:
         cmd = [
             "west", "build",
-            "-s", os.path.join(zmk_dir, "app"),
+            "-s", os.path.join(actual_zmk_dir, "app"),
             "-d", build_dir,
             "-b", board,
         ] + extra_west + ["--"] + extra_cmake
@@ -226,6 +232,7 @@ def main():
     parser.add_argument("--config-dir", default=DEFAULT_CONFIG_DIR, help="Path to zmk-config repo")
     parser.add_argument("--workspace-dir", default=DEFAULT_WORKSPACE_DIR, help="Path to west workspace")
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR, help="Path for output firmware (.uf2)")
+    parser.add_argument("--pmw3610-dir", default=None, help="Path to custom zmk-pmw3610-driver module")
     parser.add_argument("-k", "--keymap", choices=["qwerty", "colemak_dh"], default=None, help="Override keymap layout")
 
     args = parser.parse_args()
